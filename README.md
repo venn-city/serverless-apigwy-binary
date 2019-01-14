@@ -15,6 +15,7 @@ $ npm install --save serverless-apigwy-binary
 ## Usage
 
 Add the plugin to your `serverless.yml`
+The plugin assumes you have `apiGateway.restApiId` configuration in your serverless.yml, it won't work otherwise. 
 
 ```yaml
 # serverless.yml
@@ -27,14 +28,19 @@ Add the property `contentHandling: CONVERT_TO_BINARY` to an HTTP event
 
 ```yaml
 # serverless.yml
-
-functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          integration: lambda
-          path: hello
-          method: get
-          contentHandling: CONVERT_TO_BINARY
+provider:
+  name: aws
+    apiGateway:
+      restApiId: {YOUR_REST_API_ID}
+      restApiRootResourceId: {YUOR_ROOT_RESOURCE_ID}  
+  ...
+  functions:
+    hello:
+      handler: handler.hello
+      events:
+        - http:
+            integration: lambda
+            path: hello
+            method: get
+            contentHandling: CONVERT_TO_BINARY
 ```
